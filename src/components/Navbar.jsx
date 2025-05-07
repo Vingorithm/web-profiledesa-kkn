@@ -39,22 +39,21 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
     };
   }, []);
 
-  const handleNavClick = (section) => {
-    setActiveSection(section);
+  const handleNavClick = (path) => {
+    navigate(path);
     setExpanded(false);
-  };
+  };  
 
   const handleLogin = () => {
     navigate('/login');
   };
 
   const handleLogout = () => {
-    // Clear user data from localStorage
     localStorage.removeItem('user');
     setCurrentUser(null);
     
     // Optional: redirect to login page or stay on the current page
-    // navigate('/login');
+    navigate('/login');
   };
 
   return (
@@ -132,22 +131,28 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
         
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto align-items-lg-center">
-            {['beranda', 'profil', 'artikel', 'event', 'galeri', 'umkm', 'kontak'].map((section) => (
+          {[
+              { label: 'beranda', path: '/' },
+              { label: 'profil', path: '/profil' },
+              { label: 'artikel', path: '/artikel' },
+              { label: 'galeri', path: '/galeri' },
+              { label: 'umkm', path: '/umkm' },
+              { label: 'tentang kami', path: '/about' }
+            ].map(({ label, path }) => (
               <Nav.Link 
-                key={section}
-                href={`#${section}`} 
-                onClick={() => handleNavClick(section)}
-                className={`mx-lg-2 position-relative ${activeSection === section ? 'active' : ''}`}
+                key={label}
+                onClick={() => handleNavClick(path)}
+                className={`mx-lg-2 position-relative ${activeSection === label ? 'active' : ''}`}
                 style={{
-                  color: scrolled ? (activeSection === section ? COLORS.green : COLORS.brown) : 'white',
-                  fontWeight: activeSection === section ? '600' : '400',
+                  color: scrolled ? (activeSection === label ? COLORS.green : COLORS.brown) : 'white',
+                  fontWeight: activeSection === label ? '600' : '400',
                   textShadow: scrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.5)',
                   transition: 'all 0.3s ease',
                   textTransform: 'capitalize'
                 }}
               >
-                {section}
-                {activeSection === section && (
+                {label}
+                {activeSection === label && (
                   <div className="position-absolute" style={{
                     height: '3px',
                     width: '50%',
@@ -159,7 +164,6 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
                 )}
               </Nav.Link>
             ))}
-            
             {currentUser ? (
               <Dropdown className="ms-lg-3 mt-3 mt-lg-0">
                 <Dropdown.Toggle 
@@ -191,10 +195,10 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
                   </div>
                   <Dropdown.Divider />
                   <Dropdown.Item 
-                    href="/admin/dashboard"
+                    href="/admin/galeri"
                     style={{ color: COLORS.brown }}
                   >
-                    Dashboard Admin
+                    Kelola Galeri
                   </Dropdown.Item>
                   <Dropdown.Item 
                     href="/admin/artikel"

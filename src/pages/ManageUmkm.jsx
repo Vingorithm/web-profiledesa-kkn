@@ -1,32 +1,40 @@
+
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form, Table, Modal, Spinner, Alert, Image as BootstrapImage } from 'react-bootstrap';
-import { Plus, Edit, Trash2, Image, FileText, Link as LinkIcon, Tag, X, Upload } from 'lucide-react';
+import { Container, Row, Col, Card, Button, Form, Table, Modal, Spinner, Alert } from 'react-bootstrap';
+import { Plus, Edit, Trash2, Image, Store, Upload, Phone, User, FileText, X, Tag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
-import { getSemuaArtikel, tambahArtikel, editArtikel, hapusArtikel } from '../service';
+import { getSemuaUMKM, tambahUMKM, editUMKM, hapusUMKM } from '../service';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import dummyData from '../components/DummyData';
 
-const COLORS = dummyData.colors;
+const COLORS = {
+  gold: '#D4AF37',
+  green: '#4C7031',
+  brown: '#8B5E3C',
+  orange: '#F2994A',
+  cream: '#F6F1E9',
+  gray: '#A9A9A9'
+};
 
-// Predefined category options
+// Predefined category options for UMKM
 const KATEGORI_OPTIONS = [
-  'Sosial & Budaya',
-  'Kesehatan',
-  'Pendidikan',
-  'UMKM',
+  'Makanan',
+  'Minuman',
+  'Kerajinan',
+  'Fashion',
   'Pertanian',
-  'Teknologi',
+  'Peternakan',
+  'Jasa',
   'Lain-lain'
 ];
 
 // Maximum image size in bytes (1MB)
 const MAX_IMAGE_SIZE = 1024 * 1024;
 
-const ManageArtikel = () => {
+const ManageUmkm = () => {
   const navigate = useNavigate();
-  const [articles, setArticles] = useState([]);
+  const [umkmList, setUmkmList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -35,7 +43,7 @@ const ManageArtikel = () => {
   // Modal states
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [selectedUmkm, setSelectedUmkm] = useState(null);
   const [processing, setProcessing] = useState(false);
   
   // File upload states
@@ -47,15 +55,16 @@ const ManageArtikel = () => {
   
   // Form states
   const [formData, setFormData] = useState({
-    judul: '',
+    nama: '',
+    nama_pemilik: '',
+    no_telp: '',
     text: '',
-    link: '',
     kategori: KATEGORI_OPTIONS[0]
   });
   
   // Delete confirmation modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [articleToDelete, setArticleToDelete] = useState(null);
+  const [umkmToDelete, setUmkmToDelete] = useState(null);
 
   // Check if user is logged in
   useEffect(() => {
@@ -76,18 +85,18 @@ const ManageArtikel = () => {
         footerDescription: 'Desa Guyangan adalah desa yang kaya akan budaya dan tradisi. Kami berkomitmen untuk memajukan kesejahteraan warga melalui pembangunan berkelanjutan.'
       });
       
-      // Load articles
-      fetchArticles();
+      // Load UMKM data
+      fetchUmkmData();
     }
   }, [navigate]);
 
-  const fetchArticles = async () => {
+  const fetchUmkmData = async () => {
     setLoading(true);
     try {
-      const data = await getSemuaArtikel();
-      setArticles(data);
+      const data = await getSemuaUMKM();
+      setUmkmList(data);
     } catch (err) {
-      setError('Gagal mengambil data artikel');
+      setError('Gagal mengambil data UMKM');
       console.error(err);
     } finally {
       setLoading(false);
@@ -230,9 +239,10 @@ const ManageArtikel = () => {
 
   const resetForm = () => {
     setFormData({
-      judul: '',
+      nama: '',
+      nama_pemilik: '',
+      no_telp: '',
       text: '',
-      link: '',
       kategori: KATEGORI_OPTIONS[0]
     });
     setSelectedFile(null);
@@ -246,25 +256,26 @@ const ManageArtikel = () => {
     resetForm();
   };
 
-  const handleAddArticle = () => {
+  const handleAddUmkm = () => {
     setModalMode('add');
     resetForm();
     setShowModal(true);
   };
 
-  const handleEditArticle = (article) => {
+  const handleEditUmkm = (umkm) => {
     setModalMode('edit');
-    setSelectedArticle(article);
+    setSelectedUmkm(umkm);
     setFormData({
-      judul: article.judul || '',
-      text: article.text || '',
-      link: article.link || '',
-      kategori: article.kategori || KATEGORI_OPTIONS[0]
+      nama: umkm.nama || '',
+      nama_pemilik: umkm.nama_pemilik || '',
+      no_telp: umkm.no_telp || '',
+      text: umkm.text || '',
+      kategori: umkm.kategori || KATEGORI_OPTIONS[0]
     });
     
     // Set existing image as preview
-    if (article.gambar) {
-      setFilePreview(article.gambar);
+    if (umkm.gambar) {
+      setFilePreview(umkm.gambar);
     } else {
       setFilePreview('');
     }
@@ -275,26 +286,26 @@ const ManageArtikel = () => {
     setShowModal(true);
   };
 
-  const confirmDeleteArticle = (article) => {
-    setArticleToDelete(article);
+  const confirmDeleteUmkm = (umkm) => {
+    setUmkmToDelete(umkm);
     setShowDeleteModal(true);
   };
 
-  const handleDeleteArticle = async () => {
-    if (!articleToDelete) return;
+  const handleDeleteUmkm = async () => {
+    if (!umkmToDelete) return;
     
     setProcessing(true);
     try {
-      await hapusArtikel(articleToDelete.id);
-      setSuccess('Artikel berhasil dihapus');
-      fetchArticles();
+      await hapusUMKM(umkmToDelete.id);
+      setSuccess('UMKM berhasil dihapus');
+      fetchUmkmData();
     } catch (err) {
-      setError('Gagal menghapus artikel');
+      setError('Gagal menghapus UMKM');
       console.error(err);
     } finally {
       setProcessing(false);
       setShowDeleteModal(false);
-      setArticleToDelete(null);
+      setUmkmToDelete(null);
       
       // Clear success message after 3 seconds
       setTimeout(() => {
@@ -312,39 +323,42 @@ const ManageArtikel = () => {
       if (modalMode === 'add') {
         // Check if file is selected for add mode
         if (!selectedFile) {
-          setError('Gambar artikel wajib diupload');
+          setError('Gambar UMKM wajib diupload');
           setProcessing(false);
           return;
         }
         
-        // Call service to add article with file
-        await tambahArtikel(selectedFile, formData.judul, formData.text, formData.link, formData.kategori);
-        setSuccess('Artikel berhasil ditambahkan');
+        await tambahUMKM(
+          selectedFile, 
+          formData.nama, 
+          formData.kategori, 
+          formData.nama_pemilik, 
+          formData.no_telp, 
+          formData.text
+        );
+        setSuccess('UMKM berhasil ditambahkan');
       } else {
         // For edit mode, prepare update data
         const updatedData = { ...formData };
         
-        // If a new file is selected, it will be handled by the service
         if (selectedFile) {
-          // We need to implement special handling in editArtikel to replace image
-          await editArtikel(selectedArticle.id, updatedData, selectedFile);
+          await editUMKM(selectedUmkm.id, updatedData, selectedFile);
         } else {
-          // No new file, just update the text fields
-          await editArtikel(selectedArticle.id, updatedData);
+          await editUMKM(selectedUmkm.id, updatedData);
         }
         
-        setSuccess('Artikel berhasil diperbarui');
+        setSuccess('UMKM berhasil diperbarui');
       }
       
       handleModalClose();
-      fetchArticles();
+      fetchUmkmData();
       
       // Clear success message after 3 seconds
       setTimeout(() => {
         setSuccess('');
       }, 3000);
     } catch (err) {
-      setError(modalMode === 'add' ? 'Gagal menambahkan artikel' : 'Gagal memperbarui artikel');
+      setError(modalMode === 'add' ? 'Gagal menambahkan UMKM' : 'Gagal memperbarui UMKM');
       console.error(err);
     } finally {
       setProcessing(false);
@@ -366,13 +380,10 @@ const ManageArtikel = () => {
     }
   };
 
-  // Truncate long text for table display
   const truncateText = (text, maxLength = 50) => {
     if (!text) return '';
     return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
   };
-
-  // Calculate navbar height for main content padding (typically 76px)
   const navbarHeight = 76;
 
   return (
@@ -387,16 +398,16 @@ const ManageArtikel = () => {
             <Col>
               <div className="d-flex justify-content-between align-items-center">
                 <div>
-                  <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Kelola Artikel</h2>
+                  <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Kelola UMKM</h2>
                   <div className="accent-line" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '10px' }}></div>
                 </div>
                 <Button
                   className="d-flex align-items-center"
                   style={{ backgroundColor: COLORS.green, border: 'none' }}
-                  onClick={handleAddArticle}
+                  onClick={handleAddUmkm}
                 >
                   <Plus size={18} className="me-2" />
-                  Tambah Artikel
+                  Tambah UMKM
                 </Button>
               </div>
             </Col>
@@ -421,19 +432,19 @@ const ManageArtikel = () => {
               {loading ? (
                 <div className="text-center py-5">
                   <Spinner animation="border" style={{ color: COLORS.gold }} />
-                  <p className="mt-3" style={{ color: COLORS.brown }}>Memuat data artikel...</p>
+                  <p className="mt-3" style={{ color: COLORS.brown }}>Memuat data UMKM...</p>
                 </div>
-              ) : articles.length === 0 ? (
+              ) : umkmList.length === 0 ? (
                 <div className="text-center py-5">
-                  <FileText size={48} style={{ color: COLORS.gray }} />
-                  <p className="mt-3" style={{ color: COLORS.gray }}>Belum ada artikel yang ditambahkan</p>
+                  <Store size={48} style={{ color: COLORS.gray }} />
+                  <p className="mt-3" style={{ color: COLORS.gray }}>Belum ada UMKM yang ditambahkan</p>
                   <Button
                     variant="outline"
                     className="mt-2"
                     style={{ color: COLORS.green, borderColor: COLORS.green }}
-                    onClick={handleAddArticle}
+                    onClick={handleAddUmkm}
                   >
-                    Tambah Artikel Pertama
+                    Tambah UMKM Pertama
                   </Button>
                 </div>
               ) : (
@@ -443,23 +454,24 @@ const ManageArtikel = () => {
                       <tr style={{ backgroundColor: COLORS.cream }}>
                         <th style={{ color: COLORS.brown }}>No</th>
                         <th style={{ color: COLORS.brown }}>Gambar</th>
-                        <th style={{ color: COLORS.brown }}>Judul</th>
+                        <th style={{ color: COLORS.brown }}>Nama UMKM</th>
                         <th style={{ color: COLORS.brown }}>Kategori</th>
-                        <th style={{ color: COLORS.brown }}>Text</th>
-                        <th style={{ color: COLORS.brown }}>Link</th>
+                        <th style={{ color: COLORS.brown }}>Pemilik</th>
+                        <th style={{ color: COLORS.brown }}>No. Telepon</th>
+                        <th style={{ color: COLORS.brown }}>Deskripsi</th>
                         <th style={{ color: COLORS.brown }}>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {articles.map((article, index) => (
-                        <tr key={article.id}>
+                      {umkmList.map((umkm, index) => (
+                        <tr key={umkm.id}>
                           <td>{index + 1}</td>
                           <td>
-                            {article.gambar ? (
+                            {umkm.gambar ? (
                               <div style={{ width: '60px', height: '40px', position: 'relative' }}>
                                 <img
-                                  src={article.gambar}
-                                  alt={article.judul}
+                                  src={umkm.gambar}
+                                  alt={umkm.nama}
                                   style={{ 
                                     width: '100%', 
                                     height: '100%', 
@@ -507,7 +519,7 @@ const ManageArtikel = () => {
                             )}
                           </td>
                           <td className="fw-medium" style={{ color: COLORS.brown }}>
-                            {article.judul}
+                            {umkm.nama}
                           </td>
                           <td>
                             <span
@@ -518,25 +530,17 @@ const ManageArtikel = () => {
                                 padding: '6px 12px'
                               }}
                             >
-                              {article.kategori || 'Umum'}
+                              {umkm.kategori || 'Umum'}
                             </span>
                           </td>
                           <td style={{ color: COLORS.gray }}>
-                            {truncateText(article.text)}
+                            {umkm.nama_pemilik || '-'}
                           </td>
-                          <td>
-                            {article.link ? (
-                              <a
-                                href={article.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{ color: COLORS.green }}
-                              >
-                                {truncateText(article.link, 20)}
-                              </a>
-                            ) : (
-                              <span style={{ color: COLORS.gray }}>-</span>
-                            )}
+                          <td style={{ color: COLORS.gray }}>
+                            {umkm.no_telp || '-'}
+                          </td>
+                          <td style={{ color: COLORS.gray }}>
+                            {truncateText(umkm.text)}
                           </td>
                           <td>
                             <div className="d-flex gap-2">
@@ -545,7 +549,7 @@ const ManageArtikel = () => {
                                 size="sm"
                                 className="d-flex align-items-center"
                                 style={{ color: COLORS.green, borderColor: COLORS.green }}
-                                onClick={() => handleEditArticle(article)}
+                                onClick={() => handleEditUmkm(umkm)}
                               >
                                 <Edit size={16} />
                               </Button>
@@ -554,7 +558,7 @@ const ManageArtikel = () => {
                                 size="sm"
                                 className="d-flex align-items-center"
                                 style={{ color: '#dc3545', borderColor: '#dc3545' }}
-                                onClick={() => confirmDeleteArticle(article)}
+                                onClick={() => confirmDeleteUmkm(umkm)}
                               >
                                 <Trash2 size={16} />
                               </Button>
@@ -571,11 +575,11 @@ const ManageArtikel = () => {
         </Container>
       </div>
 
-      {/* Add/Edit Article Modal */}
+      {/* Add/Edit UMKM Modal */}
       <Modal show={showModal} onHide={handleModalClose} size="lg" centered>
         <Modal.Header style={{ backgroundColor: COLORS.cream, border: 'none' }}>
           <Modal.Title style={{ color: COLORS.brown, fontWeight: 'bold' }}>
-            {modalMode === 'add' ? 'Tambah Artikel Baru' : 'Edit Artikel'}
+            {modalMode === 'add' ? 'Tambah UMKM Baru' : 'Edit UMKM'}
           </Modal.Title>
           <Button
             variant="link"
@@ -590,27 +594,111 @@ const ManageArtikel = () => {
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={12} className="mb-3">
-                <Form.Group controlId="articleJudul">
+                <Form.Group controlId="umkmNama">
                   <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
-                    Judul Artikel <span className="text-danger">*</span>
+                    Nama UMKM <span className="text-danger">*</span>
                   </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="judul"
-                    value={formData.judul}
-                    onChange={handleInputChange}
-                    placeholder="Masukkan judul artikel"
-                    required
-                    style={{
-                      border: `1px solid ${COLORS.gray}`,
-                      padding: '12px'
-                    }}
-                  />
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
+                      <Store size={18} color={COLORS.brown} />
+                    </span>
+                    <Form.Control
+                      type="text"
+                      name="nama"
+                      value={formData.nama}
+                      onChange={handleInputChange}
+                      placeholder="Masukkan nama UMKM"
+                      required
+                      style={{
+                        border: `1px solid ${COLORS.gray}`,
+                        padding: '12px'
+                      }}
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col md={6} className="mb-3">
+                <Form.Group controlId="umkmPemilik">
+                  <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
+                    Nama Pemilik <span className="text-danger">*</span>
+                  </Form.Label>
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
+                      <User size={18} color={COLORS.brown} />
+                    </span>
+                    <Form.Control
+                      type="text"
+                      name="nama_pemilik"
+                      value={formData.nama_pemilik}
+                      onChange={handleInputChange}
+                      placeholder="Masukkan nama pemilik"
+                      required
+                      style={{
+                        border: `1px solid ${COLORS.gray}`,
+                        padding: '12px'
+                      }}
+                    />
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col md={6} className="mb-3">
+                <Form.Group controlId="umkmNoTelp">
+                  <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
+                    Nomor Telepon <span className="text-danger">*</span>
+                  </Form.Label>
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
+                      <Phone size={18} color={COLORS.brown} />
+                    </span>
+                    <Form.Control
+                      type="text"
+                      name="no_telp"
+                      value={formData.no_telp}
+                      onChange={handleInputChange}
+                      placeholder="Contoh: 081234567890"
+                      required
+                      style={{
+                        border: `1px solid ${COLORS.gray}`,
+                        padding: '12px'
+                      }}
+                    />
+                  </div>
                 </Form.Group>
               </Col>
 
               <Col md={12} className="mb-3">
-                <Form.Group controlId="articleGambar">
+                <Form.Group controlId="umkmKategori">
+                  <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
+                    Kategori <span className="text-danger">*</span>
+                  </Form.Label>
+                  <div className="input-group">
+                    <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
+                      <Tag size={18} color={COLORS.brown} />
+                    </span>
+                    <Form.Select
+                      name="kategori"
+                      value={formData.kategori}
+                      onChange={handleInputChange}
+                      required
+                      style={{
+                        border: `1px solid ${COLORS.gray}`,
+                        padding: '12px'
+                      }}
+                    >
+                      {KATEGORI_OPTIONS.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </div>
+                </Form.Group>
+              </Col>
+
+              <Col md={12} className="mb-3">
+                <Form.Group controlId="umkmGambar">
                   <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
                     Upload Gambar {modalMode === 'add' && <span className="text-danger">*</span>}
                   </Form.Label>
@@ -637,7 +725,7 @@ const ManageArtikel = () => {
                   </div>
                   <Form.Text style={{ color: COLORS.gray }}>
                     {modalMode === 'add' 
-                      ? 'Upload gambar untuk artikel (format: JPG, PNG, GIF, maks 1MB)' 
+                      ? 'Upload gambar untuk UMKM (format: JPG, PNG, GIF, maks 1MB)' 
                       : 'Upload gambar baru untuk mengganti gambar saat ini (opsional, maks 1MB)'}
                   </Form.Text>
                   
@@ -694,121 +782,64 @@ const ManageArtikel = () => {
                   )}
                 </Form.Group>
               </Col>
-
               <Col md={12} className="mb-3">
-                <Form.Group controlId="articleKategori">
+                <Form.Group controlId="umkmDeskripsi">
                   <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
-                    Kategori <span className="text-danger">*</span>
+                    Deskripsi <span className="text-danger">*</span>
                   </Form.Label>
                   <div className="input-group">
                     <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
-                      <Tag size={18} color={COLORS.brown} />
+                      <FileText size={18} color={COLORS.brown} />
                     </span>
-                    <Form.Select
-                      name="kategori"
-                      value={formData.kategori}
+                    <Form.Control
+                      as="textarea"
+                      name="text"
+                      value={formData.text}
                       onChange={handleInputChange}
+                      placeholder="Masukkan deskripsi UMKM..."
                       required
                       style={{
                         border: `1px solid ${COLORS.gray}`,
-                        padding: '12px'
-                      }}
-                    >
-                      {KATEGORI_OPTIONS.map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </div>
-                </Form.Group>
-              </Col>
-
-              <Col md={12} className="mb-3">
-                <Form.Group controlId="articleText">
-                  <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
-                    Konten Artikel <span className="text-danger">*</span>
-                  </Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={6}
-                    name="text"
-                    value={formData.text}
-                    onChange={handleInputChange}
-                    placeholder="Tulis konten artikel di sini..."
-                    required
-                    style={{
-                      border: `1px solid ${COLORS.gray}`,
-                      padding: '12px'
-                    }}
-                  />
-                </Form.Group>
-              </Col>
-
-              <Col md={12} className="mb-3">
-                <Form.Group controlId="articleLink">
-                  <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>
-                    Link Terkait
-                  </Form.Label>
-                  <div className="input-group">
-                    <span className="input-group-text" style={{ backgroundColor: COLORS.cream }}>
-                      <LinkIcon size={18} color={COLORS.brown} />
-                    </span>
-                    <Form.Control
-                      type="url"
-                      name="link"
-                      value={formData.link}
-                      onChange={handleInputChange}
-                      placeholder="Masukkan link terkait (opsional)"
-                      style={{
-                        border: `1px solid ${COLORS.gray}`,
-                        padding: '12px'
+                        padding: '12px',
+                        minHeight: '120px'
                       }}
                     />
                   </div>
                   <Form.Text style={{ color: COLORS.gray }}>
-                    Link tambahan yang terkait dengan artikel (opsional)
+                    Berikan deskripsi singkat tentang produk dan layanan UMKM
                   </Form.Text>
                 </Form.Group>
               </Col>
             </Row>
 
-            <div className="d-flex justify-content-end gap-2 mt-4">
+            <div className="d-flex justify-content-end gap-3 mt-4">
               <Button
                 variant="outline"
                 onClick={handleModalClose}
-                style={{
+                style={{ 
+                  borderColor: COLORS.gray, 
                   color: COLORS.gray,
-                  borderColor: COLORS.gray,
-                  padding: '10px 20px'
+                  padding: '8px 20px'
                 }}
-                disabled={processing || compressing}
               >
                 Batal
               </Button>
               <Button
                 type="submit"
-                style={{
-                  backgroundColor: COLORS.gold,
+                style={{ 
+                  backgroundColor: COLORS.green, 
                   border: 'none',
-                  padding: '10px 30px'
+                  padding: '8px 20px' 
                 }}
-                disabled={processing || compressing}
+                disabled={processing || compressing || fileError}
               >
                 {processing ? (
                   <>
-                    <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                      className="me-2"
-                    />
-                    {modalMode === 'add' ? 'Menyimpan...' : 'Memperbarui...'}
+                    <Spinner size="sm" animation="border" className="me-2" />
+                    {modalMode === 'add' ? 'Menambahkan...' : 'Memperbarui...'}
                   </>
                 ) : (
-                  modalMode === 'add' ? 'Simpan Artikel' : 'Perbarui Artikel'
+                  modalMode === 'add' ? 'Tambah UMKM' : 'Perbarui UMKM'
                 )}
               </Button>
             </div>
@@ -817,7 +848,7 @@ const ManageArtikel = () => {
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} size="sm" centered>
         <Modal.Header style={{ backgroundColor: COLORS.cream, border: 'none' }}>
           <Modal.Title style={{ color: COLORS.brown, fontWeight: 'bold' }}>
             Konfirmasi Hapus
@@ -832,75 +863,47 @@ const ManageArtikel = () => {
           </Button>
         </Modal.Header>
         <Modal.Body className="px-4 py-3">
-          <p>Apakah Anda yakin ingin menghapus artikel "<strong>{articleToDelete?.judul}</strong>"?</p>
-          <p className="text-danger mb-0">Tindakan ini tidak dapat dibatalkan.</p>
+          <p className="mb-4">
+            Apakah Anda yakin ingin menghapus UMKM <strong>{umkmToDelete?.nama}</strong>? Tindakan ini tidak dapat dibatalkan.
+          </p>
+          <div className="d-flex justify-content-end gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setShowDeleteModal(false)}
+              style={{ 
+                borderColor: COLORS.gray, 
+                color: COLORS.gray,
+                padding: '8px 20px'
+              }}
+            >
+              Batal
+            </Button>
+            <Button
+              style={{ 
+                backgroundColor: '#dc3545', 
+                border: 'none',
+                padding: '8px 20px' 
+              }}
+              onClick={handleDeleteUmkm}
+              disabled={processing}
+            >
+              {processing ? (
+                <>
+                  <Spinner size="sm" animation="border" className="me-2" />
+                  Menghapus...
+                </>
+              ) : (
+                'Hapus'
+              )}
+            </Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer style={{ border: 'none' }}>
-          <Button
-            variant="outline"
-            onClick={() => setShowDeleteModal(false)}
-            style={{
-              color: COLORS.gray,
-              borderColor: COLORS.gray
-            }}
-            disabled={processing}
-          >
-            Batal
-          </Button>
-          <Button
-            variant="danger"
-            onClick={handleDeleteArticle}
-            disabled={processing}
-          >
-            {processing ? (
-              <>
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  className="me-2"
-                />
-                Menghapus...
-              </>
-            ) : (
-              'Hapus Artikel'
-            )}
-          </Button>
-        </Modal.Footer>
       </Modal>
 
-      {/* Footer */}
-      <div style={{ marginTop: 'auto' }}>
-        {villageData && <Footer villageData={villageData} />}
-      </div>
-
-      {/* Custom CSS */}
-      <style jsx>{`
-        .table th {
-          font-weight: 600;
-        }
-        .table tbody tr {
-          transition: background-color 0.2s ease;
-        }
-        .table tbody tr:hover {
-          background-color: rgba(246, 241, 233, 0.5);
-        }
-        .form-control:focus {
-          box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
-          border-color: ${COLORS.gold};
-        }
-        .hover-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-        }
-      `}</style>
+      {/* Footer Component */}
+      {villageData && <Footer villageData={villageData} />}
     </div>
   );
 };
 
-export default ManageArtikel;
+export default ManageUmkm;
