@@ -75,7 +75,7 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
         <Navbar.Brand 
           href="#beranda" 
           className="d-flex align-items-center"
-          onClick={() => handleNavClick('beranda')}
+          onClick={() => handleNavClick('/')}
         >
           <div className="position-relative">
             <div className="position-absolute" style={{ 
@@ -133,7 +133,6 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
           <Nav className="ms-auto align-items-lg-center">
           {[
               { label: 'beranda', path: '/' },
-              { label: 'profil', path: '/profil' },
               { label: 'artikel', path: '/artikel' },
               { label: 'galeri', path: '/galeri' },
               { label: 'umkm', path: '/umkm' },

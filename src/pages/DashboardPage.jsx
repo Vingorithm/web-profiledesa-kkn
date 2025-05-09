@@ -465,6 +465,7 @@ const DashboardPage = () => {
                 padding: '10px 30px',
                 borderRadius: '30px'
               }}
+              onClick={() => navigate('/umkm')}
             >
               Lihat Semua UMKM
             </Button>

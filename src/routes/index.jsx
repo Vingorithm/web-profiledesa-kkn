@@ -12,6 +12,7 @@ import ManageUmkm from "../pages/ManageUmkm";
 import ManageGaleri from "../pages/ManageGaleriPage";
 import ListArtikel from "../pages/ListArtikelPage";
 import ListUmkm from "../pages/ListUmkmPage";
+import UmkmPage from "../pages/DetailUmkm";
 
 const router = createBrowserRouter([
     { path: "/", element: <DashboardPage /> },
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
     { path: "*", element: <div>Halaman tidak ditemukan</div> },
     { path: "/artikel", element: <ListArtikel /> },
     { path: "/umkm", element: <ListUmkm /> },
+    { path: "/umkm/:id", element: <UmkmPage /> },
 ]);
 
 const AppRouter = () => (

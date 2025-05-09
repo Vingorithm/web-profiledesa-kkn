@@ -261,7 +261,7 @@ const Footer = ({ villageData }) => {
             </Col>
             <Col md={6} className="text-center text-md-end">
               <p className="mb-0" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
-                Didukung oleh <span style={{ color: COLORS.gold }}>Tim KKN 87 UAJY</span>
+                Dikembangkan oleh <span style={{ color: COLORS.gold }}>Tim KKN GUYANGAN 87 UAJY</span>
               </p>
             </Col>
           </Row>

@@ -7,6 +7,7 @@ import dummyData from '../components/DummyData';
 import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HeroImage from '../assets/images/artikel-hero.jpg';
 
 const COLORS = dummyData.colors;
 
@@ -131,7 +132,7 @@ const ListArtikelPage = () => {
 
       {/* Hero Section */}
       <section className="bg-image position-relative py-5" style={{ 
-        backgroundImage: 'url(/api/placeholder/1920/500)', 
+        backgroundImage: `url(${HeroImage})`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         position: 'relative',
