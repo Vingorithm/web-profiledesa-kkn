@@ -197,7 +197,7 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
                     href="/admin/galeri"
                     style={{ color: COLORS.brown }}
                   >
-                    Kelola Galeri
+                    Tambahkan Foto
                   </Dropdown.Item>
                   <Dropdown.Item 
                     href="/admin/artikel"

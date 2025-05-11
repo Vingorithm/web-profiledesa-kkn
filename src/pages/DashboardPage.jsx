@@ -90,7 +90,7 @@ const DashboardPage = () => {
           return {
             id: item.id,
             src: item.foto || "/api/placeholder/400/400",
-            alt: item.judul || "Galeri Desa Guyangan",
+            alt: item.judul || "Galeri Padukuhan Guyangan",
             caption: item.judul || "Foto Desa",
             date: formattedDate
           };
@@ -126,7 +126,7 @@ const DashboardPage = () => {
         <div className="spinner-border" style={{ color: COLORS.gold }} role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
-        <p className="mt-3" style={{ color: COLORS.brown, fontWeight: 500 }}>Memuat data Desa Guyangan...</p>
+        <p className="mt-3" style={{ color: COLORS.brown, fontWeight: 500 }}>Memuat data Padukuhan Guyangan...</p>
       </div>
     );
   }
@@ -162,7 +162,7 @@ const DashboardPage = () => {
                   className="mt-3 fw-bold px-4 py-3 shadow-sm" 
                   style={{ backgroundColor: COLORS.gold, border: 'none' }}
                 >
-                  Jelajahi Desa
+                  Jelajahi Padukuhan
                 </Button>
               </Carousel.Caption>
             </Carousel.Item>
@@ -184,7 +184,6 @@ const DashboardPage = () => {
               <p style={{ color: COLORS.gray }}>{villageData.welcome.additionalInfo}</p>
               <div className="d-flex gap-3 mt-4">
                 <Button size="lg" style={{ backgroundColor: COLORS.green, border: 'none' }}>Tentang Kami</Button>
-                <Button size="lg" style={{ backgroundColor: 'transparent', border: `2px solid ${COLORS.green}`, color: COLORS.green }}>Potensi Desa</Button>
               </div>
             </Col>
             <Col lg={6} className="mt-5 mt-lg-0">
@@ -214,7 +213,7 @@ const DashboardPage = () => {
                     zIndex: 2
                   }}>
                   <h4 className="mb-0" style={{ fontSize: '1.1rem' }}>Didirikan Tahun</h4>
-                  <div className="display-5 fw-bold">1957</div>
+                  <div className="display-5 fw-bold">1645</div>
                 </div>
               </div>
             </Col>
@@ -240,7 +239,7 @@ const DashboardPage = () => {
             </Col>
             <Col md={3}>
               <div className="display-4 fw-bold" style={{ color: COLORS.gold }}>{villageData.profile.hamlets}</div>
-              <div className="fw-bold mt-2">Dusun</div>
+              <div className="fw-bold mt-2">Jumlah RT</div>
             </Col>
           </Row>
         </Container>
@@ -252,7 +251,7 @@ const DashboardPage = () => {
           <div className="text-center mb-5">
             <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Event Terbaru</h2>
             <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
-            <p className="mt-3" style={{ color: COLORS.gray }}>Kegiatan dan berita terbaru dari Desa Guyangan</p>
+            <p className="mt-3" style={{ color: COLORS.gray }}>Kegiatan dan berita terbaru dari Padukuhan Guyangan</p>
           </div>
           <Row>
             {villageData.articles.length > 0 ? (
@@ -326,9 +325,9 @@ const DashboardPage = () => {
       <section id="galeri" className="py-5" style={{ backgroundColor: COLORS.cream }}>
         <Container>
           <div className="text-center mb-5">
-            <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Galeri Desa</h2>
+            <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Galeri Kami</h2>
             <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
-            <p className="mt-3" style={{ color: COLORS.gray }}>Keindahan dan Kearifan Lokal Desa Guyangan</p>
+            <p className="mt-3" style={{ color: COLORS.gray }}>Keindahan dan Kearifan Lokal Padukuhan Guyangan</p>
           </div>
           <Row className="g-4">
             {galleryData.length > 0 ? (
@@ -382,9 +381,9 @@ const DashboardPage = () => {
       <section id="umkm" className="py-5" style={{ backgroundColor: 'white' }}>
         <Container>
           <div className="text-center mb-5">
-            <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>UMKM Desa</h2>
+            <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>UMKM Padukuhan</h2>
             <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
-            <p className="mt-3" style={{ color: COLORS.gray }}>Usaha Mikro, Kecil, dan Menengah Desa Guyangan</p>
+            <p className="mt-3" style={{ color: COLORS.gray }}>Usaha Mikro, Kecil, dan Menengah Padukuhan Guyangan</p>
           </div>
           <Row>
             {umkmData.length > 0 ? (
@@ -488,7 +487,7 @@ const DashboardPage = () => {
         <Container className="position-relative">
           <Row>
             <Col lg={6} className="text-white">
-              <h2 className="fw-bold mb-3">Profil Desa</h2>
+              <h2 className="fw-bold mb-3">Profil Padukuhan</h2>
               <div className="accent-line" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginBottom: '20px' }}></div>
               <p className="lead">{villageData.profile.description}</p>
             </Col>

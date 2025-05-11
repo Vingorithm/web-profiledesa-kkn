@@ -196,7 +196,7 @@ const Footer = ({ villageData }) => {
                 
                 <Col md={4}>
                   <h5 className="fw-bold mb-4" style={{ color: COLORS.gold }}>Newsletter</h5>
-                  <p style={{ color: COLORS.cream }}>Dapatkan informasi terbaru tentang Desa Guyangan</p>
+                  <p style={{ color: COLORS.cream }}>Dapatkan informasi terbaru tentang Padukuhan Guyangan</p>
                   <Form className="mt-3">
                     <InputGroup className="mb-3">
                       <Form.Control 

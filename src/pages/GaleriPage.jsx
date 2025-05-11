@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Form, Breadcrumb } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
 import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
 import { getSemuaGaleri } from '../service';
-import { Search, Filter, ArrowRight, EyeIcon } from 'lucide-react';
+import { Search, Filter, EyeIcon } from 'lucide-react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import dummyData from '../components/DummyData';
 
 const COLORS = dummyData.colors;
+
+// Define categories that might be useful for the gallery
+// Note: Since API doesn't provide categories, we'll use tags based on photo titles
+const CATEGORIES = ['Kegiatan', 'Pemandangan', 'Budaya', 'Infrastruktur', 'Masyarakat'];
 
 const GaleriPage = () => {
   const [galleryData, setGalleryData] = useState([]);
@@ -17,9 +21,6 @@ const GaleriPage = () => {
   const [filter, setFilter] = useState('semua');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
-  const [categories, setCategories] = useState(['Kegiatan', 'Pemandangan', 'Budaya', 'Infrastruktur']);
-
-  // Modal state
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const GaleriPage = () => {
         // Fetch gallery data from Firebase
         const galeriData = await getSemuaGaleri();
         
-        // Format Gallery data
+        // Format Gallery data and intelligently assign categories based on title keywords
         const formattedGallery = galeriData.map(item => {
           // Handle Firestore timestamp for gallery date
           let formattedDate = "Tanggal tidak tersedia";
@@ -41,17 +42,31 @@ const GaleriPage = () => {
             });
           }
           
-          // Assign a random category for demo purposes
-          // In a real app, you would use the actual category from the database
-          const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+          // Assign category based on title keywords
+          let category = 'Kegiatan'; // Default category
+          const title = (item.judul || "").toLowerCase();
+          
+          if (title.includes('alam') || title.includes('pemandangan') || title.includes('sawah') || 
+              title.includes('gunung') || title.includes('pantai')) {
+            category = 'Pemandangan';
+          } else if (title.includes('budaya') || title.includes('tradisi') || title.includes('adat') || 
+                     title.includes('seni') || title.includes('tari')) {
+            category = 'Budaya';
+          } else if (title.includes('jalan') || title.includes('bangunan') || title.includes('fasilitas') || 
+                     title.includes('jembatan') || title.includes('gedung') || title.includes('kantor')) {
+            category = 'Infrastruktur';
+          } else if (title.includes('warga') || title.includes('masyarakat') || title.includes('penduduk') || 
+                     title.includes('gotong royong') || title.includes('kerjasama')) {
+            category = 'Masyarakat';
+          }
           
           return {
             id: item.id,
-            src: item.foto || "/api/placeholder/800/800",
+            src: item.foto || "/api/placeholder/800/800", // Use the correct API field name
             alt: item.judul || "Galeri Desa Guyangan",
             caption: item.judul || "Foto Desa",
             date: formattedDate,
-            category: randomCategory
+            category: category
           };
         });
         
@@ -90,13 +105,24 @@ const GaleriPage = () => {
     return matchesFilter && matchesSearch;
   });
 
+  // Function to get category counts for displaying in UI
+  const getCategoryCounts = () => {
+    const counts = {};
+    galleryData.forEach(item => {
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    });
+    return counts;
+  };
+  
+  const categoryCounts = getCategoryCounts();
+
   if (loading) {
     return (
       <div className="text-center my-5 py-5">
         <div className="spinner-border" style={{ color: COLORS.gold }} role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
-        <p className="mt-3" style={{ color: COLORS.brown, fontWeight: 500 }}>Memuat galeri Desa Guyangan...</p>
+        <p className="mt-3" style={{ color: COLORS.brown, fontWeight: 500 }}>Memuat galeri Padukuhan Guyangan...</p>
       </div>
     );
   }
@@ -114,7 +140,7 @@ const GaleriPage = () => {
       <section 
         className="py-5 position-relative text-center text-white" 
         style={{ 
-          backgroundImage: 'url(/api/placeholder/1920/400)', 
+          backgroundImage: galleryData.length > 0 ? `url(${galleryData[0].src})` : 'url(/api/placeholder/1920/400)', 
           backgroundSize: 'cover', 
           backgroundPosition: 'center',
           backgroundColor: COLORS.green,
@@ -122,20 +148,16 @@ const GaleriPage = () => {
         }}
       >
         <div className="position-absolute top-0 start-0 w-100 h-100" 
-          style={{ backgroundColor: 'rgba(76, 112, 49, 0.7)' }}></div>
+          style={{ backgroundColor: 'rgba(76, 112, 49, 0.8)' }}></div>
         <Container className="position-relative py-5">
-          <h1 className="display-4 fw-bold">Galeri Desa Guyangan</h1>
+          <h1 className="display-4 fw-bold">Galeri Padukuhan Guyangan</h1>
           <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
           <p className="lead mt-3">Keindahan dan Kearifan Lokal yang Memukau</p>
-          
-          <Breadcrumb className="justify-content-center bg-transparent mt-4">
-            <Breadcrumb.Item href="/" style={{ color: 'white' }}>Beranda</Breadcrumb.Item>
-            <Breadcrumb.Item active style={{ color: COLORS.gold }}>Galeri</Breadcrumb.Item>
-          </Breadcrumb>
+          <p className="mt-3 mb-0">{galleryData.length} foto dalam koleksi</p>
         </Container>
       </section>
 
-      {/* Gallery Filter Section */}
+      {/* Gallery Stats & Filter Section */}
       <section className="py-4" style={{ backgroundColor: 'white' }}>
         <Container>
           <Row className="align-items-center">
@@ -154,34 +176,40 @@ const GaleriPage = () => {
                   }}
                   onClick={() => setFilter('semua')}
                 >
-                  Semua
+                  Semua ({galleryData.length})
                 </Button>
                 
-                {categories.map((category, index) => (
-                  <Button 
-                    key={index}
-                    variant={filter === category ? 'primary' : 'outline-secondary'}
-                    style={{ 
-                      backgroundColor: filter === category ? COLORS.green : 'transparent',
-                      borderColor: filter === category ? COLORS.green : COLORS.gray,
-                      color: filter === category ? 'white' : COLORS.gray,
-                      borderRadius: '30px',
-                      padding: '8px 20px',
-                      fontWeight: 500,
-                      fontSize: '0.9rem'
-                    }}
-                    onClick={() => setFilter(category)}
-                  >
-                    {category}
-                  </Button>
-                ))}
+                {CATEGORIES.map((category, index) => {
+                  // Only show categories that have photos
+                  const count = categoryCounts[category] || 0;
+                  if (count === 0) return null;
+                  
+                  return (
+                    <Button 
+                      key={index}
+                      variant={filter === category ? 'primary' : 'outline-secondary'}
+                      style={{ 
+                        backgroundColor: filter === category ? COLORS.green : 'transparent',
+                        borderColor: filter === category ? COLORS.green : COLORS.gray,
+                        color: filter === category ? 'white' : COLORS.gray,
+                        borderRadius: '30px',
+                        padding: '8px 20px',
+                        fontWeight: 500,
+                        fontSize: '0.9rem'
+                      }}
+                      onClick={() => setFilter(category)}
+                    >
+                      {category} ({count})
+                    </Button>
+                  );
+                })}
               </div>
             </Col>
             <Col lg={6}>
               <div className="position-relative">
                 <Form.Control
                   type="text"
-                  placeholder="Cari galeri..."
+                  placeholder="Cari galeri berdasarkan judul atau tanggal..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   style={{
@@ -214,47 +242,51 @@ const GaleriPage = () => {
         <Container>
           {filteredGallery.length > 0 ? (
             <>
-              <Row className="g-4 mb-4">
-                {filteredGallery.slice(0, 3).map((item, index) => (
-                  <Col key={item.id} lg={index === 0 ? 12 : 6}>
-                    <div 
-                      className="gallery-item-featured position-relative rounded shadow overflow-hidden"
-                      onClick={() => handleImageClick(item)}
-                      style={{ cursor: 'pointer', height: index === 0 ? '500px' : '350px' }}
-                    >
-                      <img 
-                        src={item.src} 
-                        alt={item.alt}
-                        className="w-100 h-100"
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="position-absolute bottom-0 w-100 p-4 text-white"
-                        style={{ 
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-                          minHeight: '40%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'flex-end'
-                        }}
+              {/* Featured gallery items (first 3) */}
+              {filteredGallery.length >= 3 && (
+                <Row className="g-4 mb-4">
+                  {filteredGallery.slice(0, 3).map((item, index) => (
+                    <Col key={item.id} lg={index === 0 ? 12 : 6}>
+                      <div 
+                        className="gallery-item-featured position-relative rounded shadow overflow-hidden"
+                        onClick={() => handleImageClick(item)}
+                        style={{ cursor: 'pointer', height: index === 0 ? '500px' : '350px' }}
                       >
-                        <div className="d-flex align-items-center mb-2">
-                          <span className="badge" style={{ backgroundColor: COLORS.gold, padding: '6px 12px' }}>
-                            {item.category}
-                          </span>
-                          <small className="ms-3">{item.date}</small>
-                        </div>
-                        <h4 className="mb-0 fw-bold">{item.caption}</h4>
-                        <div className="position-absolute top-0 end-0 m-3 bg-white rounded-circle p-2 gallery-view-icon opacity-0">
-                          <EyeIcon size={18} color={COLORS.green} />
+                        <img 
+                          src={item.src} 
+                          alt={item.alt}
+                          className="w-100 h-100"
+                          style={{ objectFit: 'cover' }}
+                        />
+                        <div className="position-absolute bottom-0 w-100 p-4 text-white"
+                          style={{ 
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+                            minHeight: '40%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end'
+                          }}
+                        >
+                          <div className="d-flex align-items-center mb-2">
+                            <span className="badge" style={{ backgroundColor: COLORS.gold, padding: '6px 12px' }}>
+                              {item.category}
+                            </span>
+                            <small className="ms-3">{item.date}</small>
+                          </div>
+                          <h4 className="mb-0 fw-bold">{item.caption}</h4>
+                          <div className="position-absolute top-0 end-0 m-3 bg-white rounded-circle p-2 gallery-view-icon opacity-0">
+                            <EyeIcon size={18} color={COLORS.green} />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Col>
-                ))}
-              </Row>
+                    </Col>
+                  ))}
+                </Row>
+              )}
 
+              {/* Regular gallery grid */}
               <Row className="g-4">
-                {filteredGallery.slice(3).map((item) => (
+                {filteredGallery.slice(filteredGallery.length >= 3 ? 3 : 0).map((item) => (
                   <Col key={item.id} xs={12} sm={6} md={4} lg={3}>
                     <div 
                       className="gallery-item position-relative rounded shadow overflow-hidden"
@@ -317,141 +349,92 @@ const GaleriPage = () => {
 
       {/* Image Modal */}
       {showModal && selectedImage && (
-        <div className="modal-backdrop show" style={{ zIndex: 1050 }}></div>
-      )}
-      <div 
-        className={`modal ${showModal ? 'd-block' : 'd-none'}`} 
-        style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', zIndex: 1051 }}
-        onClick={closeModal}
-      >
-        <div className="modal-dialog modal-dialog-centered modal-lg" onClick={e => e.stopPropagation()}>
-          <div className="modal-content border-0 bg-transparent">
-            <div className="modal-body p-0 position-relative">
-              <Button 
-                variant="light" 
-                className="position-absolute end-0 top-0 rounded-circle p-2 m-2" 
-                style={{ width: '40px', height: '40px', zIndex: 1052 }}
-                onClick={closeModal}
-              >
-                &times;
-              </Button>
-              <img 
-                src={selectedImage?.src} 
-                alt={selectedImage?.alt} 
-                className="img-fluid rounded"
-                style={{ width: '100%' }}
-              />
-              <div className="bg-white p-3 rounded-bottom">
-                <div className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h5 className="mb-1" style={{ color: COLORS.brown }}>{selectedImage?.caption}</h5>
-                    <div className="d-flex align-items-center">
-                      <span className="badge me-2" style={{ backgroundColor: COLORS.green }}>{selectedImage?.category}</span>
-                      <small style={{ color: COLORS.gray }}>{selectedImage?.date}</small>
+        <>
+          <div className="modal-backdrop show" style={{ zIndex: 1050 }}></div>
+          <div 
+            className="modal d-block" 
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', zIndex: 1051 }}
+            onClick={closeModal}
+          >
+            <div className="modal-dialog modal-dialog-centered modal-lg" onClick={e => e.stopPropagation()}>
+              <div className="modal-content border-0 bg-transparent">
+                <div className="modal-body p-0 position-relative">
+                  <Button 
+                    variant="light" 
+                    className="position-absolute end-0 top-0 rounded-circle p-2 m-2" 
+                    style={{ width: '40px', height: '40px', zIndex: 1052 }}
+                    onClick={closeModal}
+                  >
+                    &times;
+                  </Button>
+                  <img 
+                    src={selectedImage.src} 
+                    alt={selectedImage.alt} 
+                    className="img-fluid rounded"
+                    style={{ width: '100%' }}
+                  />
+                  <div className="bg-white p-3 rounded-bottom">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <div>
+                        <h5 className="mb-1" style={{ color: COLORS.brown }}>{selectedImage.caption}</h5>
+                        <div className="d-flex align-items-center">
+                          <span className="badge me-2" style={{ backgroundColor: COLORS.green }}>{selectedImage.category}</span>
+                          <small style={{ color: COLORS.gray }}>{selectedImage.date}</small>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
 
-      {/* Featured Section - Pemandangan Terbaik */}
-      <section className="py-5" style={{ backgroundColor: 'white' }}>
-        <Container>
-          <div className="text-center mb-5">
-            <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Pemandangan Terbaik</h2>
-            <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
-            <p className="mt-3" style={{ color: COLORS.gray }}>Panorama indah yang menjadi kebanggaan Desa Guyangan</p>
-          </div>
-          
-          <Row className="g-4">
-            <Col lg={8}>
-              <Card className="border-0 shadow-sm h-100 overflow-hidden">
-                <div className="position-relative">
-                  <Card.Img 
-                    src={galleryData.length > 0 ? galleryData[0].src : "/api/placeholder/800/500"} 
-                    style={{ height: '400px', objectFit: 'cover' }}
-                  />
-                  <div className="position-absolute bottom-0 start-0 w-100 p-4"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}
-                  >
-                    <h3 className="text-white fw-bold">Pesona Alam Desa Guyangan</h3>
-                    <p className="text-white mb-0">Kehijauan yang membentang luas dan udara sejuk khas pedesaan</p>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-            <Col lg={4}>
-              <Row className="g-4 h-100">
-                <Col xs={12} className="h-50">
-                  <Card className="border-0 shadow-sm h-100 overflow-hidden">
-                    <div className="position-relative h-100">
-                      <Card.Img 
-                        src={galleryData.length > 1 ? galleryData[1].src : "/api/placeholder/400/250"} 
-                        className="h-100"
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="position-absolute bottom-0 start-0 w-100 p-3"
-                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}
-                      >
-                        <h5 className="text-white fw-bold">Budaya Tradisional</h5>
+      {/* Category Highlights Section */}
+      {galleryData.length > 3 && (
+        <section className="py-5" style={{ backgroundColor: 'white' }}>
+          <Container>
+            <div className="text-center mb-5">
+              <h2 className="fw-bold mb-0" style={{ color: COLORS.brown }}>Sorotan Kategori</h2>
+              <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '15px' }}></div>
+              <p className="mt-3" style={{ color: COLORS.gray }}>Berbagai momen dan keindahan dari Desa Guyangan</p>
+            </div>
+            
+            <Row className="g-4">
+              {/* Dynamically find representative images for each main category */}
+              {CATEGORIES.slice(0, 3).map((category, index) => {
+                // Find an image for this category
+                const image = galleryData.find(item => item.category === category);
+                if (!image) return null;
+                
+                return (
+                  <Col key={index} lg={4} md={6}>
+                    <Card className="border-0 shadow-sm h-100 overflow-hidden" onClick={() => setFilter(category)} style={{ cursor: 'pointer' }}>
+                      <div className="position-relative">
+                        <Card.Img 
+                          src={image.src} 
+                          style={{ height: '250px', objectFit: 'cover' }}
+                        />
+                        <div className="position-absolute bottom-0 start-0 w-100 p-3"
+                          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}
+                        >
+                          <div className="d-flex align-items-center justify-content-between">
+                            <h5 className="text-white fw-bold mb-0">{category}</h5>
+                            <span className="badge rounded-pill" style={{ backgroundColor: COLORS.gold }}>
+                              {categoryCounts[category] || 0} foto
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
-                </Col>
-                <Col xs={12} className="h-50">
-                  <Card className="border-0 shadow-sm h-100 overflow-hidden">
-                    <div className="position-relative h-100">
-                      <Card.Img 
-                        src={galleryData.length > 2 ? galleryData[2].src : "/api/placeholder/400/250"} 
-                        className="h-100"
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="position-absolute bottom-0 start-0 w-100 p-3"
-                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}
-                      >
-                        <h5 className="text-white fw-bold">Aktivitas Warga</h5>
-                      </div>
-                    </div>
-                  </Card>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-5" style={{ 
-        backgroundColor: COLORS.brown, 
-        backgroundImage: 'url(/api/placeholder/1920/500)', 
-        backgroundBlendMode: 'overlay',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'relative'
-      }}>
-        <div className="position-absolute top-0 start-0 w-100 h-100" style={{ 
-          backgroundColor: 'rgba(139, 94, 60, 0.9)'
-        }}></div>
-        <Container className="position-relative text-center text-white py-5">
-          <h2 className="display-5 fw-bold mb-3">Memiliki Foto Menarik Tentang Desa?</h2>
-          <p className="lead mb-4">Bagikan keindahan Desa Guyangan dengan kami dan bantu promosikan potensi wisata desa</p>
-          <Button 
-            size="lg" 
-            style={{ 
-              backgroundColor: COLORS.gold, 
-              border: 'none',
-              padding: '12px 30px',
-              borderRadius: '30px',
-              fontWeight: 500
-            }}
-          >
-            Bagikan Foto Anda <ArrowRight size={16} className="ms-2" />
-          </Button>
-        </Container>
-      </section>
+                    </Card>
+                  </Col>
+                );
+              })}
+            </Row>
+          </Container>
+        </section>
+      )}
 
       {/* Footer Component */}
       <Footer villageData={villageData} />

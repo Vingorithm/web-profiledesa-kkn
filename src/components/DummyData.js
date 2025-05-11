@@ -1,45 +1,45 @@
 // src/components/DummyData.js
 const dummyData = {
-    villageName: "Desa Guyangan",
+    villageName: "Padukuhan Guyangan",
     villageSlogan: "Maju, Makmur, dan Lestari",
-    footerDescription: "Desa Guyangan adalah desa yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.",
+    footerDescription: "Padukuhan Guyangan adalah Padukuhan yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.",
     
     carouselImages: [
       { 
         id: 1, 
         src: "/api/placeholder/1200/500", 
-        alt: "Pemandangan Desa Guyangan", 
-        caption: "Pesona Alam Desa Guyangan", 
-        description: "Nikmati keindahan alam yang menakjubkan di desa kami yang hijau dan asri."
+        alt: "Pemandangan Padukuhan Guyangan", 
+        caption: "Pesona Alam Padukuhan Guyangan", 
+        description: "Nikmati keindahan alam yang menakjubkan di Padukuhan kami yang hijau dan asri."
       },
       { 
         id: 2, 
         src: "/api/placeholder/1200/500", 
-        alt: "Budaya Desa", 
+        alt: "Budaya Padukuhan", 
         caption: "Kekayaan Budaya Tradisional", 
         description: "Warisan budaya yang tetap terjaga di tengah perkembangan zaman."
       },
       { 
         id: 3, 
         src: "/api/placeholder/1200/500", 
-        alt: "Pertanian Desa", 
+        alt: "Pertanian Padukuhan", 
         caption: "Pertanian Organik Berkualitas", 
-        description: "Hasil pertanian organik yang menjadi andalan ekonomi masyarakat desa."
+        description: "Hasil pertanian organik yang menjadi andalan ekonomi masyarakat Padukuhan."
       },
     ],
     
     welcome: {
-      description: "Desa Guyangan adalah sebuah desa yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Daerah Istimewa Yogyakarta. Desa ini memiliki kekayaan alam yang melimpah dengan pemandangan perbukitan karst yang menakjubkan dan tradisi budaya yang masih terjaga.",
-      additionalInfo: "Dengan potensi alam dan budaya yang dimiliki, Desa Guyangan siap menjadi destinasi wisata yang menarik bagi wisatawan lokal maupun mancanegara. Kami memiliki berbagai atraksi wisata, mulai dari gua-gua karst, pertanian organik, hingga kesenian tradisional.",
+      description: "Padukuhan Guyangan adalah sebuah Padukuhan yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Daerah Istimewa Yogyakarta. Padukuhan ini memiliki kekayaan alam yang melimpah dengan pemandangan perbukitan karst yang menakjubkan dan tradisi budaya yang masih terjaga.",
+      additionalInfo: "Dengan potensi alam dan budaya yang dimiliki, Padukuhan Guyangan siap menjadi destinasi wisata yang menarik bagi wisatawan lokal maupun mancanegara. Kami memiliki berbagai atraksi wisata, mulai dari gua-gua karst, pertanian organik, hingga kesenian tradisional.",
     },
     
     articles: [
       { 
         id: 1, 
-        title: "Pembangunan Jalan Desa Guyangan Tahap II Dimulai", 
+        title: "Pembangunan Jalan Padukuhan Guyangan Tahap II Dimulai", 
         date: "28 April 2025",
         category: "Infrastruktur",
-        summary: "Tahap kedua pembangunan jalan desa telah dimulai untuk meningkatkan aksesibilitas warga dan mendukung kegiatan ekonomi.",
+        summary: "Tahap kedua pembangunan jalan Padukuhan telah dimulai untuk meningkatkan aksesibilitas warga dan mendukung kegiatan ekonomi.",
         image: "/api/placeholder/400/300"
       },
       { 
@@ -47,15 +47,15 @@ const dummyData = {
         title: "Pelatihan Digital Marketing untuk Pelaku UMKM", 
         date: "20 April 2025",
         category: "Ekonomi",
-        summary: "Pelatihan pemasaran digital bagi pelaku UMKM desa untuk meningkatkan jangkauan pasar produk-produk lokal.",
+        summary: "Pelatihan pemasaran digital bagi pelaku UMKM Padukuhan untuk meningkatkan jangkauan pasar produk-produk lokal.",
         image: "/api/placeholder/400/300"
       },
       { 
         id: 3, 
-        title: "Festival Budaya Tahunan Desa Guyangan", 
+        title: "Festival Budaya Tahunan Padukuhan Guyangan", 
         date: "15 April 2025",
         category: "Budaya",
-        summary: "Festival budaya tahunan yang menampilkan berbagai kesenian tradisional dan kuliner khas Desa Guyangan.",
+        summary: "Festival budaya tahunan yang menampilkan berbagai kesenian tradisional dan kuliner khas Padukuhan Guyangan.",
         image: "/api/placeholder/400/300"
       },
     ],
@@ -67,7 +67,7 @@ const dummyData = {
         date: "15 Mei 2025",
         status: "Akan Datang",
         time: "08.00 - 17.00 WIB",
-        location: "Lapangan Desa Guyangan",
+        location: "Lapangan Padukuhan Guyangan",
         description: "Festival untuk merayakan musim panen dengan berbagai kegiatan menarik seperti lomba hasil pertanian, pertunjukan seni, dan pasar tani.",
         image: "/api/placeholder/400/300"
       },
@@ -77,7 +77,7 @@ const dummyData = {
         date: "22 Mei 2025",
         status: "Pendaftaran",
         time: "09.00 - 15.00 WIB",
-        location: "Balai Desa Guyangan",
+        location: "Balai Padukuhan Guyangan",
         description: "Workshop pembuatan kerajinan bambu yang dibimbing langsung oleh pengrajin terampil. Peserta akan belajar teknik dasar pembuatan kerajinan bambu.",
         image: "/api/placeholder/400/300"
       },
@@ -101,7 +101,7 @@ const dummyData = {
       { id: 5, src: "/api/placeholder/400/400", alt: "Wisata Gua", caption: "Gua Jomblang", date: "Desember 2024" },
       { id: 6, src: "/api/placeholder/400/400", alt: "Tari Tradisional", caption: "Penampilan Tari Tradisional", date: "November 2024" },
       { id: 7, src: "/api/placeholder/400/400", alt: "Hasil Panen", caption: "Panen Raya", date: "Oktober 2024" },
-      { id: 8, src: "/api/placeholder/400/400", alt: "Upacara Adat", caption: "Upacara Adat Bersih Desa", date: "September 2024" },
+      { id: 8, src: "/api/placeholder/400/400", alt: "Upacara Adat", caption: "Upacara Adat Bersih Padukuhan", date: "September 2024" },
     ],
     
     umkm: [
@@ -140,25 +140,25 @@ const dummyData = {
     ],
     
     profile: {
-      description: "Desa Guyangan terletak di Kemiri, Tanjungsari, Gunung Kidul, Daerah Istimewa Yogyakarta. Desa yang dikelilingi oleh keindahan alam pegunungan karst ini memiliki potensi wisata alam dan budaya yang luar biasa.",
-      population: "2,457",
-      area: "586 Ha",
-      families: "745",
-      hamlets: "8",
-      vision: "Mewujudkan Desa Guyangan yang maju, mandiri, sejahtera, dan berbasis pada potensi lokal dengan tetap menjaga kelestarian lingkungan dan budaya.",
+      description: "Padukuhan Guyangan terletak di Kemiri, Tanjungsari, Gunung Kidul, Daerah Istimewa Yogyakarta. Padukuhan yang dikelilingi oleh keindahan alam pegunungan karst ini memiliki potensi wisata alam dan budaya yang luar biasa.",
+      population: "615",
+      area: "25 Ha",
+      families: "215",
+      hamlets: "11",
+      vision: "Mewujudkan Padukuhan Guyangan yang maju, mandiri, sejahtera, dan berbasis pada potensi lokal dengan tetap menjaga kelestarian lingkungan dan budaya.",
       missions: [
         "Meningkatkan kualitas pelayanan publik yang profesional dan transparan",
-        "Mengembangkan ekonomi lokal berbasis potensi desa melalui sektor pertanian dan pariwisata",
-        "Meningkatkan kualitas infrastruktur desa untuk mendukung aktivitas ekonomi dan sosial masyarakat",
-        "Melestarikan budaya dan kearifan lokal sebagai identitas desa",
-        "Meningkatkan partisipasi masyarakat dalam pembangunan desa"
+        "Mengembangkan ekonomi lokal berbasis potensi Padukuhan melalui sektor pertanian dan pariwisata",
+        "Meningkatkan kualitas infrastruktur Padukuhan untuk mendukung aktivitas ekonomi dan sosial masyarakat",
+        "Melestarikan budaya dan kearifan lokal sebagai identitas Padukuhan",
+        "Meningkatkan partisipasi masyarakat dalam pembangunan Padukuhan"
       ]
     },
     
     villageInfo: {
       address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
       phone: "(0274) 123456",
-      email: "desaguyangan@gmail.com",
+      email: "Padukuhanguyangan@gmail.com",
       officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
     },
   
