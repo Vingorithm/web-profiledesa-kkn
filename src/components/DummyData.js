@@ -1,4 +1,8 @@
 // src/components/DummyData.js
+import Carousel1 from '../assets/images/carousel1.jpg';
+import Carousel2 from '../assets/images/carousel2.jpg';
+import Carousel3 from '../assets/images/carousel3.jpg';
+
 const dummyData = {
     villageName: "Padukuhan Guyangan",
     villageSlogan: "Maju, Makmur, dan Lestari",
@@ -7,21 +11,21 @@ const dummyData = {
     carouselImages: [
       { 
         id: 1, 
-        src: "/api/placeholder/1200/500", 
+        src: Carousel1, 
         alt: "Pemandangan Padukuhan Guyangan", 
         caption: "Pesona Alam Padukuhan Guyangan", 
         description: "Nikmati keindahan alam yang menakjubkan di Padukuhan kami yang hijau dan asri."
       },
       { 
         id: 2, 
-        src: "/api/placeholder/1200/500", 
+        src: Carousel2, 
         alt: "Budaya Padukuhan", 
         caption: "Kekayaan Budaya Tradisional", 
         description: "Warisan budaya yang tetap terjaga di tengah perkembangan zaman."
       },
       { 
         id: 3, 
-        src: "/api/placeholder/1200/500", 
+        src: Carousel3, 
         alt: "Pertanian Padukuhan", 
         caption: "Pertanian Organik Berkualitas", 
         description: "Hasil pertanian organik yang menjadi andalan ekonomi masyarakat Padukuhan."

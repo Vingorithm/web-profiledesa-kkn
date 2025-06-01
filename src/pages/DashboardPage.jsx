@@ -16,7 +16,7 @@ const DashboardPage = () => {
   const [activeSection, setActiveSection] = useState('beranda');
   const [articles, setArticles] = useState([]);
   const [umkmData, setUmkmData] = useState([]);
-  const [galleryData, setGalleryData] = useState([]); // New state for gallery data
+  const [galleryData, setGalleryData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -161,6 +161,7 @@ const DashboardPage = () => {
                   size="lg" 
                   className="mt-3 fw-bold px-4 py-3 shadow-sm" 
                   style={{ backgroundColor: COLORS.gold, border: 'none' }}
+                  onClick={() => navigate("/about")}
                 >
                   Jelajahi Padukuhan
                 </Button>

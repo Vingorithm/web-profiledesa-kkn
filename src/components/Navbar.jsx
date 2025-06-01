@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Container, Button, Dropdown } from 'react-bootstrap';
 import { Menu, X, ChevronDown, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../assets/images/logo.jpg';
 
 const COLORS = {
   gold: '#D4AF37',
@@ -88,7 +89,7 @@ const NavbarComponent = ({ villageData, activeSection, setActiveSection }) => {
               zIndex: -1
             }}></div>
             <img
-              src="/api/placeholder/40/40"
+              src={Logo}
               width="40"
               height="40"
               className="d-inline-block align-top rounded-circle"

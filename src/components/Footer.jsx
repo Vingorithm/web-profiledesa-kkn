@@ -170,8 +170,6 @@ const Footer = ({ villageData }) => {
                   <h5 className="fw-bold mb-4" style={{ color: COLORS.gold }}>Layanan</h5>
                   <ul className="list-unstyled">
                     {[
-                      'Surat Pengantar', 
-                      'Laporan Keuangan', 
                       'Informasi Publik', 
                       'Potensi Desa', 
                       'Data Penduduk'
