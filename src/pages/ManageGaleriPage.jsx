@@ -51,15 +51,15 @@ const ManageGaleriPage = () => {
     } else {
       // Dummy village data for Navbar and Footer
       setVillageData({
-        villageName: 'Desa Guyangan',
-        villageSlogan: 'Bersatu Membangun Desa',
+        villageName: 'Padukuhan Guyangan',
+        villageSlogan: 'Maju, Makmur, dan Lestari',
         villageInfo: {
-          address: 'Jl. Raya Guyangan, Gunung Kidul',
-          phone: '(0274) 123456',
-          email: 'info@desaguyangan.id',
-          officeHours: 'Senin - Jumat, 08.00 - 16.00 WIB'
+          address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
+          phone: "(0274) 123456",
+          email: "Padukuhanguyangan@gmail.com",
+          officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
         },
-        footerDescription: 'Desa Guyangan adalah desa yang kaya akan budaya dan tradisi. Kami berkomitmen untuk memajukan kesejahteraan warga melalui pembangunan berkelanjutan.'
+        footerDescription: 'Padukuhan Guyangan adalah Padukuhan yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.'
       });
       
       // Load galleries
