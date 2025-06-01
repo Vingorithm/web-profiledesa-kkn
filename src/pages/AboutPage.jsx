@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { MapPin, Award, Users, Book, Phone, Mail, ExternalLink, Github, Linkedin } from 'lucide-react';
+import TimKKNImage from '../assets/images/kkn_tentang_kami.jpg';
 import dummyData from '../components/DummyData';
 
 const COLORS = dummyData.colors;
@@ -286,7 +287,7 @@ const AboutPage = () => {
                 <Row className="g-0">
                     <Col md={6}>
                     <img 
-                        src="/api/placeholder/800/500"
+                        src={TimKKNImage}
                         alt="Tim KKN Padukuhan Guyangan"
                         className="w-100 h-100"
                         style={{ objectFit: 'cover' }}
@@ -417,72 +418,6 @@ const AboutPage = () => {
             </Row>
         </Container>
         </section>
-        
-      {/* Contact Information */}
-      <section className="py-5" style={{ backgroundColor: 'white' }}>
-        <Container>
-          <Row className="justify-content-center">
-            <Col lg={8} className="text-center">
-              <h2 className="fw-bold mb-3" style={{ color: COLORS.brown }}>Kontak Kami</h2>
-              <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginBottom: '20px' }}></div>
-              <p style={{ color: COLORS.gray }}>
-                Untuk informasi lebih lanjut tentang Padukuhan Guyangan atau jika Anda memiliki pertanyaan,
-                jangan ragu untuk menghubungi kami melalui kontak di bawah ini:
-              </p>
-              
-              <div className="d-flex justify-content-center flex-wrap gap-4 mt-4">
-                <div className="d-flex align-items-center">
-                  <div className="p-3 rounded-circle me-3 d-flex align-items-center justify-content-center" 
-                    style={{ 
-                      backgroundColor: COLORS.green, 
-                      width: '50px',
-                      height: '50px'
-                    }}
-                  >
-                    <MapPin size={20} color="white" />
-                  </div>
-                  <div className="text-start">
-                    <p className="mb-0 fw-bold" style={{ color: COLORS.brown }}>Kemiri, Tanjungsari, Gunung Kidul</p>
-                    <p className="mb-0" style={{ color: COLORS.gray }}>Yogyakarta 55881</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex align-items-center">
-                  <div className="p-3 rounded-circle me-3 d-flex align-items-center justify-content-center" 
-                    style={{ 
-                      backgroundColor: COLORS.green, 
-                      width: '50px',
-                      height: '50px'
-                    }}
-                  >
-                    <Phone size={20} color="white" />
-                  </div>
-                  <div className="text-start">
-                    <p className="mb-0 fw-bold" style={{ color: COLORS.brown }}>+62 274 123456</p>
-                    <p className="mb-0" style={{ color: COLORS.gray }}>Senin - Jumat, 08:00 - 16:00</p>
-                  </div>
-                </div>
-                
-                <div className="d-flex align-items-center">
-                  <div className="p-3 rounded-circle me-3 d-flex align-items-center justify-content-center" 
-                    style={{ 
-                      backgroundColor: COLORS.green, 
-                      width: '50px',
-                      height: '50px'
-                    }}
-                  >
-                    <Mail size={20} color="white" />
-                  </div>
-                  <div className="text-start">
-                    <p className="mb-0 fw-bold" style={{ color: COLORS.brown }}>info@guyangan.desa.id</p>
-                    <p className="mb-0" style={{ color: COLORS.gray }}>Hubungi kami kapan saja</p>
-                  </div>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
 
       {/* Footer Component */}
       <Footer 
