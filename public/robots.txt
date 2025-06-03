@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://padukuhan-guyangan.vercel.app/sitemap.xml
