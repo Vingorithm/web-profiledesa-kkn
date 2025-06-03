@@ -36,15 +36,7 @@ const ListUmkmPage = () => {
   useEffect(() => {
     // Set dummy village data for Navbar and Footer
     setVillageData({
-      villageName: 'Desa Guyangan',
-      villageSlogan: 'Maju, Makmur, dan Lestari',
-      villageInfo: {
-        address: 'Jl. Raya Guyangan, Gunung Kidul',
-        phone: '(0274) 123456',
-        email: 'info@desaguyangan.id',
-        officeHours: 'Senin - Jumat, 08.00 - 16.00 WIB'
-      },
-      footerDescription: 'Desa Guyangan adalah desa yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.'
+        ...dummyData,
     });
     
     // Fetch UMKM data

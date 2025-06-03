@@ -7,6 +7,7 @@ import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
 import { getSemuaUMKM, tambahUMKM, editUMKM, hapusUMKM } from '../service';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import dummyData from '../components/DummyData';
 
 const COLORS = {
   gold: '#D4AF37',
@@ -74,17 +75,8 @@ const ManageUmkm = () => {
     } else {
       // Dummy village data for Navbar and Footer
       setVillageData({
-        villageName: 'Padukuhan Guyangan',
-        villageSlogan: 'Maju, Makmur, dan Lestari',
-        villageInfo: {
-          address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
-          phone: "(0274) 123456",
-          email: "Padukuhanguyangan@gmail.com",
-          officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
-        },
-        footerDescription: 'Padukuhan Guyangan adalah Padukuhan yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.'
+          ...dummyData,
       });
-      
       // Load UMKM data
       fetchUmkmData();
     }

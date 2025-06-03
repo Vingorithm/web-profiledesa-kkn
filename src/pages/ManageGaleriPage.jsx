@@ -51,17 +51,8 @@ const ManageGaleriPage = () => {
     } else {
       // Dummy village data for Navbar and Footer
       setVillageData({
-        villageName: 'Padukuhan Guyangan',
-        villageSlogan: 'Maju, Makmur, dan Lestari',
-        villageInfo: {
-          address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
-          phone: "(0274) 123456",
-          email: "Padukuhanguyangan@gmail.com",
-          officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
-        },
-        footerDescription: 'Padukuhan Guyangan adalah Padukuhan yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.'
+          ...dummyData,
       });
-      
       // Load galleries
       fetchGalleries();
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { Facebook, Instagram, Youtube, Twitter, ArrowRight, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import Logo from '../assets/images/logo.jpg';
 
 const COLORS = {
   gold: '#D4AF37',
@@ -48,7 +49,7 @@ const Footer = ({ villageData }) => {
                     zIndex: 0
                   }}></div>
                   <img
-                    src="/api/placeholder/60/60"
+                    src={Logo}
                     width="60"
                     height="60"
                     className="d-inline-block align-top rounded-circle position-relative"
