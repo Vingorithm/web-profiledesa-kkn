@@ -24,11 +24,11 @@ It serves as a **digital profile platform** for the hamlet, aimed at promoting l
 
 ## 🛠️ Technologies Used
 
-| Component        | Technology            |
+| Component        | Technology             |
 |------------------|------------------------|
-| Front-End        | HTML, CSS, JavaScript  |
+| Front-End        | React.js               |
 | Styling          | Bootstrap 5            |
-| Backend / Data   | Firebase (Realtime Database) |
+| Backend / Data   | Firebase               |
 | Hosting / Deploy | Vercel                 |
 | Version Control  | Git, GitHub            |
 
