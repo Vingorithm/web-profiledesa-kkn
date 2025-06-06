@@ -18,19 +18,37 @@ const DashboardPage = () => {
   const [umkmData, setUmkmData] = useState([]);
   const [galleryData, setGalleryData] = useState([]);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const recipientEmail = 'kknguyangan46@gmail.com';
+    const subject = encodeURIComponent(formData.subject);
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+    );
+    const mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+    window.location.href = mailtoLink;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch articles from Firebase
         const artikelData = await getSemuaArtikel();
         
-        // Format the date and sort by newest
         const formattedArticles = artikelData.map(article => {
-          // Handle Firestore timestamp
           let formattedDate = "Tanggal tidak tersedia";
           if (article.createdAt) {
-            // Handle both Firestore timestamp and JavaScript Date objects
             const date = article.createdAt.toDate ? article.createdAt.toDate() : new Date(article.createdAt);
             formattedDate = date.toLocaleDateString('id-ID', {
               day: 'numeric',
@@ -523,65 +541,81 @@ const DashboardPage = () => {
           </div>
           <Row>
             <Col lg={6}>
-              <Form className="contact-form p-4 rounded shadow-sm" style={{ backgroundColor: COLORS.cream }}>
+              <Form className="contact-form p-4 rounded shadow-sm" style={{ backgroundColor: COLORS.cream }} onSubmit={handleSubmit}>
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>Nama</Form.Label>
-                      <Form.Control 
-                        type="text" 
-                        placeholder="Nama lengkap" 
-                        style={{ 
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Nama lengkap"
+                        style={{
                           border: `1px solid ${COLORS.gray}`,
                           padding: '12px',
-                          backgroundColor: 'white'
-                        }} 
+                          backgroundColor: 'white',
+                        }}
+                        required
                       />
                     </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>Email</Form.Label>
-                      <Form.Control 
-                        type="email" 
-                        placeholder="Email anda" 
-                        style={{ 
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Email anda"
+                        style={{
                           border: `1px solid ${COLORS.gray}`,
                           padding: '12px',
-                          backgroundColor: 'white'
-                        }} 
+                          backgroundColor: 'white',
+                        }}
+                        required
                       />
                     </Form.Group>
                   </Col>
                 </Row>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>Subjek</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Subjek pesan" 
-                    style={{ 
+                  <Form.Control
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="Subjek pesan"
+                    style={{
                       border: `1px solid ${COLORS.gray}`,
                       padding: '12px',
-                      backgroundColor: 'white'
-                    }} 
+                      backgroundColor: 'white',
+                    }}
+                    required
                   />
                 </Form.Group>
                 <Form.Group className="mb-4">
                   <Form.Label style={{ color: COLORS.brown, fontWeight: 500 }}>Pesan</Form.Label>
-                  <Form.Control 
-                    as="textarea" 
-                    rows={5} 
-                    placeholder="Tuliskan pesan anda" 
-                    style={{ 
+                  <Form.Control
+                    as="textarea"
+                    rows={5}
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Tuliskan pesan anda"
+                    style={{
                       border: `1px solid ${COLORS.gray}`,
                       padding: '12px',
-                      backgroundColor: 'white'
-                    }} 
+                      backgroundColor: 'white',
+                    }}
+                    required
                   />
                 </Form.Group>
-                <Button 
-                  type="submit" 
-                  className="fw-bold px-4 py-3 w-100" 
+                <Button
+                  type="submit"
+                  className="fw-bold px-4 py-3 w-100"
                   style={{ backgroundColor: COLORS.green, border: 'none' }}
                 >
                   Kirim Pesan

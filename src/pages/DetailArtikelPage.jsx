@@ -3,10 +3,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import NavbarComponent from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Container, Row, Col, Badge, Button, Breadcrumb, Card } from 'react-bootstrap';
-import { ArrowLeft, Calendar, User, Tag, Clock, Share2, Bookmark, Facebook, Twitter, Instagram, ThumbsUp } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Tag, Clock, Share2, Copy, Facebook, Twitter, Instagram, ThumbsUp, Check } from 'lucide-react';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { db } from "../firebase";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DummyData from '../components/DummyData';
 
 const COLORS = {
   gold: '#D4AF37',
@@ -24,6 +25,7 @@ const DetailArtikelPage = () => {
   const [loading, setLoading] = useState(true);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [villageData, setVillageData] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     // Scroll to top when page loads
@@ -64,7 +66,7 @@ const DetailArtikelPage = () => {
           setArticle(articleData);
           
           // For now, just using dummy data for the village info and related articles
-          setVillageData(dummyData);
+          setVillageData(DummyData);
           
           // Get related articles (same category, excluding current)
           const category = articleData.kategori || "Umum";
@@ -88,6 +90,54 @@ const DetailArtikelPage = () => {
     
     fetchArticleDetail();
   }, [id, navigate]);
+
+  // Function to get current article URL
+  const getCurrentUrl = () => {
+    return window.location.href;
+  };
+
+  // Function to handle Facebook share
+  const handleFacebookShare = () => {
+    const url = getCurrentUrl();
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    window.open(facebookUrl, '_blank', 'width=600,height=400');
+  };
+
+  // Function to handle Twitter share
+  const handleTwitterShare = () => {
+    const url = getCurrentUrl();
+    const text = `${article.judul} - Desa Guyangan`;
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    window.open(twitterUrl, '_blank', 'width=600,height=400');
+  };
+
+  // Function to handle Instagram share (opens Instagram web)
+  const handleInstagramShare = () => {
+    // Instagram doesn't have direct URL sharing, so we'll open Instagram web
+    const instagramUrl = 'https://www.instagram.com/';
+    window.open(instagramUrl, '_blank');
+  };
+
+  // Function to copy link to clipboard
+  const handleCopyLink = async () => {
+    try {
+      const url = getCurrentUrl();
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+    } catch (err) {
+      console.error('Failed to copy link: ', err);
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = getCurrentUrl();
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   if (loading) {
     return (
@@ -252,6 +302,8 @@ const DetailArtikelPage = () => {
                             variant="link" 
                             className="p-0" 
                             style={{ color: '#3b5998' }}
+                            onClick={handleFacebookShare}
+                            title="Bagikan ke Facebook"
                           >
                             <Facebook size={20} />
                           </Button>
@@ -259,6 +311,8 @@ const DetailArtikelPage = () => {
                             variant="link" 
                             className="p-0" 
                             style={{ color: '#1DA1F2' }}
+                            onClick={handleTwitterShare}
+                            title="Bagikan ke Twitter"
                           >
                             <Twitter size={20} />
                           </Button>
@@ -266,6 +320,8 @@ const DetailArtikelPage = () => {
                             variant="link" 
                             className="p-0" 
                             style={{ color: '#E1306C' }}
+                            onClick={handleInstagramShare}
+                            title="Buka Instagram"
                           >
                             <Instagram size={20} />
                           </Button>
@@ -278,11 +334,13 @@ const DetailArtikelPage = () => {
                           style={{ 
                             backgroundColor: 'transparent', 
                             border: `1px solid ${COLORS.gray}`,
-                            color: COLORS.gray
+                            color: copied ? COLORS.green : COLORS.gray
                           }}
+                          onClick={handleCopyLink}
+                          title="Salin link artikel"
                         >
-                          <Bookmark size={16} className="me-1" />
-                          Simpan
+                          {copied ? <Check size={16} className="me-1" /> : <Copy size={16} className="me-1" />}
+                          {copied ? 'Tersalin!' : 'Salin Link'}
                         </Button>
                         <Button 
                           className="d-flex align-items-center" 
@@ -432,45 +490,6 @@ const DetailArtikelPage = () => {
       `}</style>
     </div>
   );
-};
-
-// Mock data - same as DashboardPage for consistency
-const dummyData = {
-  villageName: "Desa Guyangan",
-  villageSlogan: "Maju, Makmur, dan Lestari",
-  footerDescription: "Desa Guyangan adalah desa yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.",
-  articles: [
-    { 
-      id: 1, 
-      title: "Pembangunan Jalan Desa Guyangan Tahap II Dimulai", 
-      date: "28 April 2025",
-      category: "Infrastruktur",
-      summary: "Tahap kedua pembangunan jalan desa telah dimulai untuk meningkatkan aksesibilitas warga dan mendukung kegiatan ekonomi.",
-      image: "/api/placeholder/400/300"
-    },
-    { 
-      id: 2, 
-      title: "Pelatihan Digital Marketing untuk Pelaku UMKM", 
-      date: "20 April 2025",
-      category: "Ekonomi",
-      summary: "Pelatihan pemasaran digital bagi pelaku UMKM desa untuk meningkatkan jangkauan pasar produk-produk lokal.",
-      image: "/api/placeholder/400/300"
-    },
-    { 
-      id: 3, 
-      title: "Festival Budaya Tahunan Desa Guyangan", 
-      date: "15 April 2025",
-      category: "Budaya",
-      summary: "Festival budaya tahunan yang menampilkan berbagai kesenian tradisional dan kuliner khas Desa Guyangan.",
-      image: "/api/placeholder/400/300"
-    },
-  ],
-  villageInfo: {
-    address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
-    phone: "(0274) 123456",
-    email: "desaguyangan@gmail.com",
-    officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
-  }
 };
 
 export default DetailArtikelPage;

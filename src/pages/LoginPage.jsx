@@ -83,8 +83,8 @@ const LoginPage = () => {
         <div className="row justify-content-center">
           <div className="col-md-8 col-lg-6 col-xl-5">
             <div className="text-center text-white mb-4">
-              <h1 className="display-4 fw-bold mb-2">Desa Guyangan</h1>
-              <p className="lead">Selamat datang di Sistem Informasi Desa</p>
+              <h1 className="display-4 fw-bold mb-2">Padukuhan Guyangan</h1>
+              <p className="lead">Selamat datang di Sistem Informasi Padukuhan</p>
               <div className="accent-line mx-auto" style={{ width: '80px', height: '4px', backgroundColor: COLORS.gold, marginTop: '5px' }}></div>
             </div>
             
@@ -165,13 +165,6 @@ const LoginPage = () => {
                       label="Ingat saya"
                       style={{ color: COLORS.gray }}
                     />
-                    <Button
-                      variant="link"
-                      className="p-0"
-                      style={{ color: COLORS.green, textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      Lupa password?
-                    </Button>
                   </div>
 
                   <Button
@@ -219,7 +212,7 @@ const LoginPage = () => {
 
                 <div className="mt-3 text-center" style={{ color: COLORS.gray }}>
                   <p className="mb-0">
-                    &copy; {new Date().getFullYear()} Desa Guyangan, Tanjungsari, Gunung Kidul
+                    &copy; {new Date().getFullYear()} Padukuhan Guyangan, Tanjungsari, Gunung Kidul
                   </p>
                 </div>
               </Card.Body>

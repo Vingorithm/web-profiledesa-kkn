@@ -49,7 +49,7 @@ const DetailUmkm = () => {
           setUMKM(umkmData);
           
           // For now, just using dummy data for the village info
-          setVillageData(dummyData);
+          setVillageData(DummyData);
           
           const allUMKM = await getSemuaUMKM();
           const category = umkmData.kategori || "Umum";
@@ -541,19 +541,6 @@ const DetailUmkm = () => {
       `}</style>
     </div>
   );
-};
-
-// Mock data - same structure as in the DetailArtikelPage for consistency
-const dummyData = {
-  villageName: "Desa Guyangan",
-  villageSlogan: "Maju, Makmur, dan Lestari",
-  footerDescription: "Desa Guyangan adalah desa yang terletak di Kemiri, Tanjungsari, Gunung Kidul, Special Region of Yogyakarta yang kaya akan budaya, alam, dan tradisi.",
-  villageInfo: {
-    address: "Jl. Raya Guyangan, Kemiri, Tanjungsari, Kabupaten Gunung Kidul, Daerah Istimewa Yogyakarta 55881",
-    phone: "(0274) 123456",
-    email: "desaguyangan@gmail.com",
-    officeHours: "Senin - Jumat: 08.00 - 15.00 WIB"
-  }
 };
 
 export default DetailUmkm;

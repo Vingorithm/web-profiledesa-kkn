@@ -9,6 +9,9 @@ lerna-debug.log*
 
 node_modules
 firebase.js
+firebase.json
+cors.json
+storage.rules
 dist
 dist-ssr
 *.local
