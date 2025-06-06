@@ -1,12 +1,35 @@
-# React + Vite
+# 🌐 Padukuhan Guyangan Profile Website – KKN Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This website was developed as part of the **Community Service Program** in **Padukuhan Guyangan**, located in **Gunungkidul Regency, Yogyakarta, Indonesia**.
 
-Currently, two official plugins are available:
+It serves as a **digital profile platform** for the hamlet, aimed at promoting local potential, facilitating transparency, and supporting the vision of a "Smart Village."
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 **Live Site**: [https://padukuhan-guyangan.vercel.app](https://padukuhan-guyangan.vercel.app)  
+📂 **Repository**: [github.com/Vingorithm/web-profiledesa-kkn](https://github.com/Vingorithm/web-profiledesa-kkn)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 Key Features
+
+- **Homepage** – Brief introduction and overview of the hamlet.
+- **Hamlet Profile** – History, demographics, and administrative details.
+- **Local Potentials** – Highlights of agriculture, livestock, small businesses (UMKM), and community assets.
+- **Village Government Structure** – Organizational chart and staff information.
+- **News & Activities** – Recent community events and documentation of KKN activities.
+- **Photo Gallery** – Visual documentation of the hamlet and KKN moments.
+- **Contact Page** – Contact form and social media links.
+- **Location Map** – Embedded Google Maps showing the hamlet’s location.
+
+---
+
+## 🛠️ Technologies Used
+
+| Component        | Technology            |
+|------------------|------------------------|
+| Front-End        | HTML, CSS, JavaScript  |
+| Styling          | Bootstrap 5            |
+| Backend / Data   | Firebase (Realtime Database) |
+| Hosting / Deploy | Vercel                 |
+| Version Control  | Git, GitHub            |
+
+---
